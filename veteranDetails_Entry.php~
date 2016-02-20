@@ -1,0 +1,692 @@
+<?php
+/*
+
+*	File:			veteranDetails_Entry.php
+*	By:			Group Phi
+*	Date:		2015-03-01
+*
+*	This script defines an HTML form using php 
+*	for user to enter veteran details - POST to veteranSave.php
+*
+*
+*=====================================
+*/
+
+{ 		//	Secure Connection Script
+		include('../../htdocs/forms2/dbConfig1.php');
+		$dbSuccess = false;
+		$dbConnected = mysql_connect($db['hostname'],$db['username'],$db['password']);
+		
+		if ($dbConnected) {		
+			$dbSelected = mysql_select_db($db['database'],$dbConnected);
+			if ($dbSelected) {
+				$dbSuccess = true;
+				//echo "DB SELECTED";
+			} else {
+				echo "DB Selection FAILed";
+			}
+		} else {
+				echo "MySQL Connection FAILed";
+		}
+		//	END	Secure Connection Script
+}
+error_reporting(0);
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Veteran Inc</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+      <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+    
+  <body>
+      
+      
+    <nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+      <div id="logo">
+
+            <img src="images/pic_burned.png">
+
+        </div>
+
+      <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    
+        
+        <a class="navbar-brand" href="#">Veterans Inc</a>
+    </div>
+
+      
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">ABOUT US <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">SERVICES</a></li>
+         <li><a href="#">VOLUNTEERS</a></li>
+         <li><a href="#">DONATIONS</a></li>
+       
+      </ul>
+        
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>CONTACT US</a></li>
+       
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container -->
+</nav>
+     
+<?php
+
+
+if ($dbSuccess) {
+
+	echo '<h2 style="font-family: arial, helvetica, sans-serif;" align="center" >
+				New Veteran Entry Form
+			</h2>';
+
+	echo "<br />";
+	
+		{	//	create the State DROPDOWN  FIELD 
+			$stateList_SQL =  "SELECT State_ID, State_Desc FROM state ";
+			//$stateList_SQL .= "ORDER By State_Desc ";
+			
+			$stateList_SQL_Query = mysql_query($stateList_SQL);	
+
+			$fld_stateID = '<select name="State">';
+			$fld_stateID .= '<option value="0"  selected="selected">Select State</option>';
+	 	
+			while ($row = mysql_fetch_array($stateList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_stateID = $row['State_ID'];
+						 $dd_state_desc = $row['State_Desc'];
+				     
+						 $fld_stateID .= '<option value="'.$dd_stateID.'">'.$dd_state_desc.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($stateList_SQL_Query);		
+	
+			$fld_stateID .= '</select>';
+			
+		//	END: create the State DROPDOWN  FIELD 
+		}	
+	
+		{	//	create the Ineligibility DROPDOWN  FIELD 
+			$ineligibilityList_SQL =  "SELECT Ineligibility_ID, Ineligibility_Desc FROM ineligibility ";
+			//$ineligibilityList_SQL .= "ORDER By Ineligibility_Desc ";
+			
+			$ineligibilityList_SQL_Query = mysql_query($ineligibilityList_SQL);	
+
+			$fld_ineligibilityID = '<select name="Ineligibility_ID">';
+			$fld_ineligibilityID .= '<option value="0" selected="selected">Select Ineligibility Reason</option>';
+	 	
+			while ($row = mysql_fetch_array($ineligibilityList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_ineligibilityID = $row['Ineligibility_ID'];
+						 $dd_ineligibility_desc = $row['Ineligibility_Desc'];
+				     
+						 $fld_ineligibilityID .= '<option value="'.$dd_ineligibilityID.'">'.$dd_ineligibility_desc.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($ineligibilityList_SQL_Query);		
+	
+			$fld_ineligibilityID .= '</select>';
+			
+		//	END: create the Ineligibility Reason DROPDOWN  FIELD 
+		}	
+		
+		{	//	create the Destination DROPDOWN  FIELD 
+			$destinationList_SQL =  "SELECT Destination_ID, Destination_Type FROM destination ";
+			//$stateList_SQL .= "ORDER By Destination_Type ";
+			
+			$destinationList_SQL_Query = mysql_query($destinationList_SQL);	
+
+			$fld_Destination_ID = '<select name="Destination_ID">';
+			$fld_Destination_ID .= '<option value="0"  selected="selected">Select Destination</option>';
+	 	
+			while ($row = mysql_fetch_array($destinationList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_Destination_ID = $row['Destination_ID'];
+						 $dd_Destination_Type = $row['Destination_Type'];
+				     
+						 $fld_Destination_ID .= '<option value="'.$dd_Destination_ID.'">'.$dd_Destination_Type.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($destinationList_SQL_Query);		
+	
+			$fld_Destination_ID .= '</select>';
+			
+		//	END: create the Destination DROPDOWN  FIELD 
+		}	
+
+		{	//	create the Destination DROPDOWN  FIELD 
+			$destinationList_SQL =  "SELECT Destination_ID, Destination_Type FROM destination ";
+			//$stateList_SQL .= "ORDER By Destination_Type ";
+			
+			$destinationList_SQL_Query = mysql_query($destinationList_SQL);	
+
+			$fld_Destination_ID = '<select name="Destination_ID">';
+			$fld_Destination_ID .= '<option value="0"  selected="selected">Select Destination</option>';
+	 	
+			while ($row = mysql_fetch_array($destinationList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_Destination_ID = $row['Destination_ID'];
+						$dd_Destination_Type = $row['Destination_Type'];
+				     
+						 $fld_Destination_ID .= '<option value="'.$dd_Destination_ID.'">'.$dd_Destination_Type.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($destinationList_SQL_Query);		
+	
+			$fld_Destination_ID .= '</select>';
+			
+		//	END: create the Destination DROPDOWN  FIELD 
+		}	
+
+		
+		{	//	create the Housing Subsidy DROPDOWN  FIELD 
+			$subsidyList_SQL =  "SELECT H_Sub_ID, H_Sub_Type FROM housing_subsidy ";
+			//$stateList_SQL .= "ORDER By Destination_Type ";
+			
+			$subsidyList_SQL_Query = mysql_query($subsidyList_SQL);	
+
+			$fld_H_Sub_ID = '<select name="H_Sub_ID">';
+			$fld_H_Sub_ID .= '<option value="0"  selected="selected">Select Housing Subsidy</option>';
+	 	
+			while ($row = mysql_fetch_array($subsidyList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_H_Sub_ID = $row['H_Sub_ID'];
+						 $dd_H_Sub_Type = $row['H_Sub_Type'];
+				     
+						 $fld_H_Sub_ID .= '<option value="'.$dd_H_Sub_ID.'">'.$dd_H_Sub_Type.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($subsidyList_SQL_Query);		
+	
+			$fld_H_Sub_ID .= '</select>';
+			
+		//	END: create the Housing Subsidy DROPDOWN  FIELD  
+		}
+		
+		{	//	create the Area DROPDOWN  FIELD 
+			$areaList_SQL =  "SELECT Area_ID, Area_Desc FROM area ";
+			//$areaList_SQL .= "ORDER By Area_Desc ";
+			
+			$areaList_SQL_Query = mysql_query($areaList_SQL);	
+
+			$fld_areaID = '<select name="Area_ID">';
+			$fld_areaID .= '<option value="0"  selected="selected">Select Area Type</option>';
+	 	
+			while ($row = mysql_fetch_array($areaList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_areaID = $row['Area_ID'];
+						 $dd_area_desc = $row['Area_Desc'];
+				     
+						 $fld_areaID .= '<option value="'.$dd_areaID.'">'.$dd_area_desc.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($areaList_SQL_Query);		
+	
+			$fld_areaID .= '</select>';
+			
+		//	END: create the Area DROPDOWN  FIELD 
+		}
+		
+		{	//	create the Staff DROPDOWN  FIELD 
+			$staffList_SQL =  "SELECT Staff_Type_ID, Staff_Type_Desc FROM staff_type ";
+			//$areaList_SQL .= "ORDER By Area_Desc ";
+			
+			$staffList_SQL_Query = mysql_query($staffList_SQL);	
+
+			$fld_Staff_ID = '<select name="Staff_Type_ID">';
+			$fld_Staff_ID .= '<option value="0"  selected="selected">Select Staff</option>';
+	 	
+			while ($row = mysql_fetch_array($staffList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_Staff_ID = $row['Staff_Type_ID'];
+						 $dd_username = $row['Staff_Type_Desc'];
+				     
+						 $fld_Staff_ID .= '<option value="'.$dd_Staff_ID.'">'.$dd_username.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($staffList_SQL_Query);		
+	
+			$fld_Staff_ID .= '</select>';
+			
+		//	END: create the Staff DROPDOWN  FIELD 
+		}
+		
+		{	//	create the Ethinicity DROPDOWN  FIELD 
+			$ethinicityList_SQL =  "SELECT Ethinicity_ID, Ethinicity_Desc FROM ethinicity ";
+			//$stateList_SQL .= "ORDER By Destination_Type ";
+			
+			$ethinicityList_SQL_Query = mysql_query($ethinicityList_SQL);	
+
+			$fld_Ethinicity_ID = '<select name="Ethinicity_ID">';
+			$fld_Ethinicity_ID .= '<option value="0" label="coyvalue" selected="selected">Select Ethinicity</option>';
+	 	
+			while ($row = mysql_fetch_array($ethinicityList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_Ethinicity_ID = $row['Ethinicity_ID'];
+						$dd_Ethinicity_Desc = $row['Ethinicity_Desc'];
+				     
+						 $fld_Ethinicity_ID .= '<option value="'.$dd_Ethinicity_ID.'">'.$dd_Ethinicity_Desc.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($ethinicityList_SQL_Query);		
+	
+			$fld_Ethinicity_ID .= '</select>';
+			
+		//	END: create the Ethinicity DROPDOWN  FIELD  
+		}	
+		
+		{	//	create the Race DROPDOWN  FIELD 
+			$raceList_SQL =  "SELECT Race_ID, Race_Desc FROM race ";
+			//$raceList_SQL .= "ORDER By Race_Desc ";
+			
+			$raceList_SQL_Query = mysql_query($raceList_SQL);	
+
+			$fld_raceID = '<select name="Race_ID">';
+			$fld_raceID .= '<option value="0" label="coyvalue" selected="selected">Select Race Type</option>';
+	 	
+			while ($row = mysql_fetch_array($raceList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_raceID = $row['Race_ID'];
+						 $dd_race_desc = $row['Race_Desc'];
+				     
+						 $fld_raceID .= '<option value="'.$dd_raceID.'">'.$dd_race_desc.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($raceList_SQL_Query);		
+	
+			$fld_raceID .= '</select>';
+			
+		//	END: create the Race DROPDOWN  FIELD 
+		}
+		
+		{	//	create the Category DROPDOWN  FIELD 
+			$categoryList_SQL =  "SELECT Category_ID, Category_Desc FROM category ";
+			//$categoryList_SQL .= "ORDER By Category_Desc ";
+			
+			$categoryList_SQL_Query = mysql_query($categoryList_SQL);	
+
+			$fld_categoryID = '<select name="Category_ID">';
+			$fld_categoryID .= '<option value="0" label="coyvalue" selected="selected">Select Category Type</option>';
+	 	
+			while ($row = mysql_fetch_array($categoryList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_categoryID = $row['Category_ID'];
+						 $dd_category_desc = $row['Category_Desc'];
+				     
+						 $fld_categoryID .= '<option value="'.$dd_categoryID.'">'.$dd_category_desc.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($categoryList_SQL_Query);		
+	
+			$fld_categoryID .= '</select>';
+			
+		//	END: create the Category DROPDOWN  FIELD 
+		}		
+
+		{	//	create the Income Source DROPDOWN  FIELD 
+			$incomesourceList_SQL =  "SELECT Income_ID, IncomeSource_Type FROM income_source";
+			//$stateList_SQL .= "ORDER By Destination_Type ";
+			
+			$incomesourceList_SQL_Query = mysql_query($incomesourceList_SQL);	
+
+			$fld_Income_ID = '<select name="Income_ID">';
+			$fld_Income_ID .= '<option value="0" label="coyvalue" selected="selected">Select Income Source</option>';
+	 	
+			while ($row = mysql_fetch_array($incomesourceList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_Income_ID = $row['Income_ID'];
+						$dd_IncomeSource_Type = $row['IncomeSource_Type'];
+				     
+						 $fld_Income_ID .= '<option value="'.$dd_Income_ID.'">'.$dd_IncomeSource_Type.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($incomesourceList_SQL_Query);		
+	
+			$fld_Income_ID .= '</select>';
+			
+		//	END: create the Income Source DROPDOWN  FIELD  
+		}	
+		
+		{	//	create the Operation DROPDOWN  FIELD 
+			$operationList_SQL =  "SELECT Operation_ID, Operation_Location FROM operation ";
+			//$operationList_SQL .= "ORDER By Operation_Location ";
+			
+			$operationList_SQL_Query = mysql_query($operationList_SQL);	
+
+			$fld_operationID = '<select name="Operation_ID">';
+			$fld_operationID .= '<option value="0" label="coyvalue" selected="selected">Select Operational location</option>';
+	 	
+			while ($row = mysql_fetch_array($operationList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_operationID = $row['Operation_ID'];
+						 $dd_operation_location = $row['Operation_Location'];
+				     
+						 $fld_operationID .= '<option value="'.$dd_operationID.'">'.$dd_operation_location.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($operationList_SQL_Query);		
+	
+			$fld_operationID .= '</select>';
+			
+		//	END: create the Operation DROPDOWN  FIELD 
+		}
+
+		{	//	create the Referral DROPDOWN  FIELD 
+			$referralList_SQL =  "SELECT Referral_ID, Referral_Type FROM referral";
+			//$stateList_SQL .= "ORDER By Destination_Type ";
+			
+			$referralList_SQL_Query = mysql_query($referralList_SQL);	
+
+			$fld_Referral_ID = '<select name="Referral_ID">';
+			$fld_Referral_ID .= '<option value="0" label="coyvalue" selected="selected">Select Referral</option>';
+	 	
+			while ($row = mysql_fetch_array($referralList_SQL_Query, MYSQL_ASSOC)) {
+					    $dd_Referral_ID = $row['Referral_ID'];
+						$dd_Referral_Type = $row['Referral_Type'];
+				     
+						 $fld_Referral_ID .= '<option value="'.$dd_Referral_ID.'">'.$dd_Referral_Type.'</option>';		    
+		  
+				}
+			
+				mysql_free_result($referralList_SQL_Query);		
+	
+			$fld_Referral_ID .= '</select>';
+			
+		//	END: create the Referral DROPDOWN  FIELD  
+		}	
+
+
+		
+	{	//		FORM postVeteran 
+		//echo '<img src="../../forms/pic.png" style="position:fixed; right:30px; top:30px; border:none;" float: left />';		
+		echo '<form name="postVeteran" action="veteranSave.php" method="post" style="margin-left: 100px">';
+		
+				echo '
+				<table>
+						<tr>
+						<td>Last Name</td>
+						<td><input type="text" name="Last_Name" /></td>
+						</tr>
+					
+						<tr>
+						<td>First Name</td>
+						<td><input type="text" name="First_Name" /></td>
+						</tr>
+						
+						<tr>
+						<td>SSN</td>
+						<td><input type="text" name="SSN" /></td>
+						</tr>
+						
+						<tr>
+						<!--<td>State</td>
+						<td><input type="text" name="State" /></td>
+						</tr>
+						<tr>-->
+							<td>State</td>
+							<td>'.$fld_stateID.'</td>
+						</tr>
+	
+						<tr>
+						<td>City</td>
+						<td><input type="text" name="City" /></td>
+						</tr>
+	
+						<tr>
+						<td>Contact Number</td>
+						<td><input type="text" name="Contact_No" /></td>					
+						</tr>
+						
+						<!--<td>Gender</td>
+						<td><input type="text" name="Gender" /></td>
+					   </tr>-->
+					   <td>Gender</td>
+						<td><label for="male">Male</td>
+						<td><input type="radio" name="Gender" id="male" value="male" checked="checked" style="margin-left: -320px" /></td>
+						<td><label for="female" style="margin-left: -300px"/>Female</td>
+						<td><input type="radio" name="Gender" id="female" value="female" style="margin-left: -240px" /></td>
+					   </tr>
+					    
+						<!--<td>Veteran Status</td>
+						<td><input type="text" name="Vet_Status" /></td>-->
+						<td>Veteran Status</td>
+						<td><label for="yes"  >Yes</td>
+						<td><input type="radio" name="Vet_Status" value="yes"style="margin-left: -320px" /></td>
+						<td><label for="no" style="margin-left: -300px"/>No</td>
+						<td><input type="radio" name="Vet_Status" value="no"style="margin-left: -270px"  /></td>
+						</tr>
+
+						<tr>
+						<!--<td>OIF/OEF</td>
+						<td><input type="text" name="OIF_OEF" /></td>
+						</tr>
+						
+						<tr>
+						<td>Less than 30% AMI</td>
+						<td><input type="text" name="Less_AMI" /></td>
+						</tr>
+								
+						<tr>			
+						<td>Head of the household</td>
+						<td><input type="text" name="Head_HH" /></td>
+						</tr>
+						
+						<tr>
+						<td>Do you have Children?</td>
+						<td><input type="text" name="Children" /></td>
+						</tr>
+						
+						<tr>
+	 					<td>Eligible for SSVF?</td>
+						<td><input type="text" name="Eligible_SSVF" /></td>
+					   </tr> -->
+					   <tr>
+						<td>OIF/OEF</td>
+					   <td><label for="yes">Yes</td>
+						<td><input type="radio" name="OIF_OEF" value="yes"style="margin-left: -320px" /></td>
+						<td><label for="no" style="margin-left: -300px"/>No</td>
+						<td><input type="radio" name="OIF_OEF" value="no" style="margin-left: -270px" /></td>
+						</tr>
+						
+						<tr>
+						<td>Less than 30% AMI</td>
+					   <td><label for="yes">Yes</td>
+						<td><input type="radio" name="Less_AMI" value="yes"style="margin-left: -320px" /></td>
+						<td><label for="no" style="margin-left: -300px"/>No</td>
+						<td><input type="radio" name="Less_AMI" value="no" style="margin-left: -270px" /></td>
+						</tr>
+						
+						<tr>					
+						<td>Head of the household? </td>
+						<td><label for="yes">Yes</td>
+						<td><input type="radio" name="Head_HH" value="yes" style="margin-left: -320px" /></td>
+						<td><label for="no" style="margin-left: -300px"/>No</td>
+						<td><input type="radio" name="Head_HH" value="no" style="margin-left: -270px" /></td>
+						</tr>
+						
+						<tr>
+						<td>Do you have Children?</td>
+						<td><label for="yes">Yes</td>
+						<td><input type="radio" name="Children" value="yes" style="margin-left: -320px" /></td>
+						<td><label for="no" style="margin-left: -300px"/>No</td>
+						<td><input type="radio" name="Children" value="no" style="margin-left: -270px"/></td>
+						</tr>
+						
+						<tr>
+						<td>Eligible for SSVF?</td>
+						<td><label for="yes">Yes</td>
+						<td><input type="radio" name="Eligible_SSVF" value="yes" style="margin-left: -320px" /></td>
+						<td><label for="no"style="margin-left: -300px"/>No</td>
+						<td><input type="radio" name="Eligible_SSVF" value="no" style="margin-left: -270px" /></td>
+					   </tr>
+						
+						<tr>
+						<td>Entry Date</td>
+						<td><input type="text" name="Entry_Dt" /></td>
+						</tr>
+						
+						<tr>
+						<td>Exit Date</td>
+						<td><input type="text" name="Exit_Dt" /></td>
+						</tr>
+						
+						<tr>
+						<!--<td>Ineligibility reason</td>
+						<td><input type="text" name="Ineligibility_ID" /></td>
+						</tr> -->
+						 <td>Ineligibility Reason </td>
+						<td>'.$fld_ineligibilityID.'  </td></tr>
+							
+						<tr>				
+						<td>Destination</td>
+						<td>'.$fld_Destination_ID.'</td>
+						</tr>
+						
+						<tr>
+						<td>Housing Subsidy</td>
+						<td>'.$fld_H_Sub_ID.'</td>
+						</tr>
+								
+						<tr>			
+						<!--<td>Area</td>
+						<td><input type="text" name="Area_ID" /></td>
+						</tr> -->
+						<tr>					
+						<td>Area</td>
+						<td>'.$fld_areaID.'</td>
+						</tr>
+						
+						<tr>
+						<td>Staff</td>
+						<td>'.$fld_Staff_ID.'</td>
+						</tr>
+						
+						<tr>
+						<td>Ethinicity</td>
+						<td>'.$fld_Ethinicity_ID.'</td>
+						</tr>
+						
+						<tr>
+						<!--<td>Race</td>
+						<td><input type="text" name="Race_ID" /></td>
+						</tr> -->
+						<tr>
+						<td>Race</td>
+						<td>'.$fld_raceID.'</td>
+						</tr>
+						
+						<tr>
+						<!--<td>Category</td>
+						<td><input type="text" name="Category_ID" /></td>
+						</tr> -->
+						<tr>
+						<td>Category</td>
+						<td>'.$fld_categoryID.'</td>
+						</tr>
+						
+						<tr>
+						<td>Income Source</td>
+						<td>'.$fld_Income_ID.'</td>
+						</tr>
+						
+						<tr>
+						<!--<td>Operational Area</td>
+						<td><input type="text" name="Operation_ID" /></td>
+						</tr> -->
+						<tr>
+						<td>Operational Location</td>
+						<td>'.$fld_operationID.'</td>
+						</tr>
+
+						<tr>
+						<td>Referral</td>
+						<td>'.$fld_Referral_ID.'</td>
+						</tr>
+						
+						<tr>
+						<td></td>
+						<td align="right"><input type="submit"  value="Save" /></td>
+						</tr>
+				</table>
+				';
+					
+		echo '</form>';
+	}
+
+}
+echo "<br /><hr /><br />";
+
+
+echo '<a href="../index.php">Quit - to homepage</a>';
+
+
+?>
+   <!-- FOOTER -->
+        <footer>
+        <img src="Images/1428151255_flag_usa.png">
+        
+        <nav>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Donations</a></li>
+                <li><a href="#">Volunteers</a></li>
+                <li><a href="#">Careers</a></li>
+            </ul>
+        </nav>
+   
+
+        <p class="pull-right"><a href="#">Back to top</a></p>
+
+        <p>&copy; 2015 Veterans Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+
+      </footer>
+        
+
+      </div><!-- /.container -->
+
+      
+ 
+      
+      
+      
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

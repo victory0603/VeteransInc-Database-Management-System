@@ -1,0 +1,219 @@
+html {
+    background-color: #FFFFFF;
+}
+
+body {
+    background-color:#EDE6E6;
+    margin: 0 auto;
+    width: 960px;
+    font-family: arial,helvetica, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #373535;
+}
+
+/* Header*/
+header {
+    width: 100%;
+    height: 150px;
+    padding-top: 20px;
+    
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    display: inline;
+    padding: 10px;
+    color: #373535;
+    font-size: 16px;
+}
+
+header li:first-child {
+    border-right: 1px solid #373535;
+}
+
+
+.left {
+    width: 320px;
+    float: left;
+}
+
+.left ul {
+    float: left;
+    padding-left: 30px;
+    padding-top: 90px;
+}
+
+.right {
+    width:320px;
+    float: right;
+}
+
+.right ul {
+    float: right;
+    padding-right: 30px;
+    padding-top: 90px;
+}
+
+#logo {
+    width: 320px;
+    float:left;
+    text-align: center;
+    color: #B46363;
+    font-size: 36px;
+    
+}
+
+#logo p {
+    margin: 0;
+}
+
+#logo img {
+    display: block;
+    margin: 0 auto;
+    padding-top: 3px;
+}
+
+/*Content*/
+/**
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    contenteditable attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that are clearfixed.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}
+
+
+
+
+#main p {
+    margin: 0;
+    padding-top: 30px;
+    padding-right: 20px;
+    text-align: center;
+    color: #B46363;
+    font-size: 30px;
+}
+
+#signin {
+    padding-top: 30px;
+    text-align: center;
+}
+
+#username {
+    width: 220px;
+    height: 25px;
+    border-radius: 5px;
+    padding: 0;
+    margin-left: 190px;
+    margin-top: 5px;
+}
+
+#password {
+    width: 220px;
+    height: 25px;
+    border-radius: 5px;
+    padding-top:  0;
+    margin-left: 190px;
+     margin-top: 10px;
+}
+#submit {
+    width: 220px;
+    height: 25px;
+    border-radius: 5px;
+    padding: 0;
+    margin-left: 450px;
+     margin-top: 30px;
+}
+
+.box{
+
+    position: relative;
+    float: left;
+    margin-top: 15px;
+    margin-bottom: 11px;
+}
+
+.box img {
+    position: relative;
+    z-index: 1;
+    left:15px;
+    
+}
+
+.box p {
+    position: absolute;
+    width: 100%;
+    bottom: 12px;
+    z-index: 2;
+    text-align: center;
+    font-size: 24px;
+    left: 15px;
+}
+
+.middle {
+    margin-left: 15px;
+    margin-right: 15px;
+    
+}
+
+.middle p {
+    color:#373535;
+
+}
+
+/*Footer*/
+
+nav {
+    color: #373535;
+    font-size: 16px;
+}
+
+footer {
+    background-color: #e5e0e0;
+    height: 140px;
+    padding-top: 20px;
+}
+
+footer ul {
+    text-align: center;
+    padding-top: 10px;
+}
+
+footer li {
+    border-right: 1px solid #373535;
+}
+
+footer li:last-child {
+    border-right: none;
+
+}
+
+footer img {
+    display:block;
+    margin: 0 auto;
+}

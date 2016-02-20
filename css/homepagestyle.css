@@ -1,0 +1,119 @@
+
+body {
+
+    background-color: #EDE6E6;
+
+    margin: 0 auto;
+
+    width: auto;
+
+    font-family: arial,helvetica, sans-serif;
+
+}
+
+/**
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    contenteditable attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that are clearfixed.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}
+.featurette-heading {
+    font-size: 3em;
+    padding-top: 5%;
+}
+
+#main p {
+    margin: 0;
+    padding-top: 30px;
+    padding-right: 20px;
+    text-align: center;
+    color: #B46363;
+    font-size: 30px;
+}
+
+#signin {
+    padding-top: 30px;
+    text-align: center;
+}
+
+#username {
+    width: 220px;
+    height: 25px;
+    border-radius: 5px;
+    padding: 0;
+    margin-left: 190px;
+    margin-top: 5px;
+}
+
+#password {
+    width: 220px;
+    height: 25px;
+    border-radius: 5px;
+    padding-top:  0;
+    margin-left: 190px;
+     margin-top: 10px;
+}
+#submit {
+    width: 220px;
+    height: 25px;
+    border-radius: 5px;
+    padding: 0;
+    margin-left: 450px;
+     margin-top: 30px;
+}
+/*Footer*/
+
+nav {
+    color: #373535;
+    font-size: 16px;
+}
+footer {
+    background-color: #e5e0e0;
+    height: 150px;
+    width:inherit;
+     padding-top: 20px;
+   
+}
+
+footer ul {
+    text-align: center;
+    padding-top: 10px;
+}
+
+footer li {
+      display: inline;
+    padding: 10px;
+    color: #373535;
+    font-size: 16px;
+    border-right: 1px solid #373535;
+}
+
+footer li:last-child {
+    border-right: none;
+
+}
+
+footer img {
+    display:block;
+    margin: 0 auto;
+}

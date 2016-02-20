@@ -1,0 +1,73 @@
+<?PHP
+/*
+Simfatic Forms Main Form processor script
+
+This script does all the server side processing. 
+(Displaying the form, processing form submissions,
+displaying errors, making CAPTCHA image, and so on.) 
+
+All pages (including the form page) are displayed using 
+templates in the 'templ' sub folder. 
+
+The overall structure is that of a list of modules. Depending on the 
+arguments (POST/GET) passed to the script, the modules process in sequence. 
+
+Please note that just appending  a header and footer to this script won't work.
+To embed the form, use the 'Copy & Paste' code in the 'Take the Code' page. 
+To extend the functionality, see 'Extension Modules' in the help.
+
+*/
+
+@ini_set("display_errors", 1);//the error handler is added later in FormProc
+error_reporting(E_ALL & ~((defined('E_STRICT')?E_STRICT:0)|E_NOTICE));
+
+
+$formproc_obj =  new SFM_FormProcessor('Data_Entry');
+$formproc_obj->initTimeZone('default');
+$formproc_obj->setFormID('9055ce90-1814-492e-beb0-0ede0c53935f');
+$formproc_obj->setFormKey('8a8b5804-f1f1-401f-b46c-5b24c9788991');
+$formproc_obj->setLocale('en-US','M/d/yyyy');
+$formproc_obj->setEmailFormatHTML(true);
+$formproc_obj->EnableLogging(false);
+$formproc_obj->SetDebugMode(false);
+$formproc_obj->setIsInstalled(true);
+$formproc_obj->SetPrintPreviewPage(sfm_readfile(dirname(__FILE__)."/templ/Data_Entry_print_preview_file.txt"));
+$formproc_obj->SetSingleBoxErrorDisplay(true);
+$formproc_obj->setFormPage(0,sfm_readfile(dirname(__FILE__)."/templ/Data_Entry_form_page_0.txt"));
+$formproc_obj->AddElementInfo('Textbox1','text','');
+$formproc_obj->AddElementInfo('Textbox','text','');
+$formproc_obj->AddElementInfo('Textbox4','text','');
+$formproc_obj->AddElementInfo('Textbox2','text','');
+$formproc_obj->AddElementInfo('Textbox3','text','');
+$formproc_obj->AddElementInfo('DatePicker','datepicker','');
+$formproc_obj->setFormDBLogin('127.0.0.1','root','','alphacrm');
+$formproc_obj->SetHiddenInputTrapVarName('tc665476596d4e7fc1881');
+$page_renderer =  new FM_FormPageDisplayModule();
+$formproc_obj->addModule($page_renderer);
+
+$admin_page =  new FM_AdminPageHandler();
+$admin_page->SetPageTemplate(sfm_readfile(dirname(__FILE__)."/templ/Data_Entry_admin_page_templ.txt"));
+$admin_page->SetLogin('abc','3F2B430291984038');
+$admin_page->SetLoginTemplate(sfm_readfile(dirname(__FILE__)."/templ/Data_Entry_admin_page_login.txt"));
+$formproc_obj->addModule($admin_page);
+
+$s_db_handler =  new FM_SimpleDB('Data_Entry');
+$s_db_handler->AddField('_sfm_form_submision_time_','DATETIME','FormSubmissionTime');
+$s_db_handler->AddField('_sfm_visitor_ip_','VARCHAR(45)','VisitorsIP');
+$s_db_handler->AddField('_sfm_unique_id_','VARCHAR(35)','UniqueID');
+$s_db_handler->AddField('Textbox1','VARCHAR(100)');
+$s_db_handler->AddField('Textbox','VARCHAR(100)');
+$s_db_handler->AddField('Textbox4','VARCHAR(100)');
+$s_db_handler->AddField('Textbox2','VARCHAR(100)');
+$s_db_handler->AddField('Textbox3','VARCHAR(100)');
+$s_db_handler->AddField('DatePicker','DATE');
+$formproc_obj->addModule($s_db_handler);
+
+$tupage =  new FM_ThankYouPage(sfm_readfile(dirname(__FILE__)."/templ/Data_Entry_thank_u.txt"));
+$formproc_obj->addModule($tupage);
+
+$uniqueid_s =  new FM_ShortUniqueID('Data_Entry');
+$formproc_obj->AddExtensionModule($uniqueid_s);
+$formproc_obj->ProcessForm();
+
+?>

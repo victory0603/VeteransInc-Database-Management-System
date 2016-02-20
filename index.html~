@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Veterans Inc</title>    
+    <meta charset="utf-8">  
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <script src="javascript/html5shiv.js"></script>
+    
+</head>
+    
+
+<body>
+    
+    <header>
+        <div class="left">
+            <ul>
+                <li><a href="#">Apply For Services</a></li>
+                <li><a href="#">Jobs</a></li>       
+            
+            </ul>
+        
+        
+        </div > 
+       <div class="right">
+            <ul>
+                <li><a href="#">Shelter</a></li>
+                <li><a href="#">Make A Donation</a></li>
+             
+            </ul>
+        
+        
+        </div>
+        
+        <div id="logo">
+            <img src="images/pic_burned.png">
+            
+        </div>
+    
+    
+    </header>
+    
+    
+    <div id="main">
+       
+          <p>Shelter, foods and jobs</p>
+
+        <form id="username">
+
+            <input id="username" type="username" name="username"                         placeholder="enter your user name"> 
+
+        </form>
+
+        
+
+        <form id="password">
+
+            <input id="password" type="password" name="password"
+
+                   placeholder="enter your password">          
+
+        </form>
+
+        <form id="submit">
+
+            <input id ="click" type="submit" value="SIGN IN">
+
+        </form>
+
+        
+
+    </div>
+    
+    
+    <div class="cf">
+        
+        <div class="box">
+            <a href="#"><img src="Images/102612_Veterans301.jpg">
+            </a>
+        </div>
+        
+        <div class="box middle">
+            <a href="#"><img src="Images/IMG_0597-300.jpg">
+            </a>
+        </div>
+        <div class="box">
+            <a href="#"><img src="Images/veterans-jobs300.jpg">
+            <p></p></a>
+        </div>    
+    </div>
+    
+    <footer>
+        <img src="Images/1428151255_flag_usa.png">
+        
+        <nav>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Volunteers</a></li>
+                <li><a href="#">Donations</a></li>
+            </ul>
+        </nav>
+        
+    </footer>
+    
+</body>
+
+
+</html>
